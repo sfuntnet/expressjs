@@ -11,6 +11,11 @@ const PORT = process.env.PORT || 8000;
 
 const app: Application = express();
 
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(express.static("public"));
@@ -24,12 +29,17 @@ app.use(
         },
     })
 );
-
+io.on('connection', (socket: any) => {
+    console.log('a user connected');
+    socket.on('abc', (veri:any) => {
+        console.log(veri);
+        io.emit('abc', veri);
+    });
+});
 app.use(Router);
 
 createConnection(dbConfig).then(_connection => {
-    console.log(_connection)
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
         console.log("Server is running on port", PORT);
     });
 }).catch(err => {
