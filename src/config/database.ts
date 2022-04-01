@@ -1,13 +1,13 @@
 import {ConnectionOptions} from 'typeorm'
 import {User, Post, Comment} from '../models'
 
-const config : ConnectionOptions = {
-  type: "mysql",
-  host: "localhost",
-  port: 3306,
-  username: "root",
-  password: "1234",
-  database: "type_orm_data",
+const config : ConnectionOptions | any = {
+  type: process.env.DB_CONNECTION,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   entities: [User, Post, Comment],
   synchronize: true,
 }

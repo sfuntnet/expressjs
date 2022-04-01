@@ -4,6 +4,9 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
+
 import Router from "./routes";
 import dbConfig from './config/database'
 
@@ -15,6 +18,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+
 
 app.use(express.json());
 app.use(morgan("tiny"));
