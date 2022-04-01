@@ -3,13 +3,11 @@ import {createConnection} from "typeorm";
 import express, { Application } from "express";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
+import Router from "./routes";
 
 const dotenv = require('dotenv');
 dotenv.config({ path: './.env' });
-
-import Router from "./routes";
 import dbConfig from './config/database'
-
 const PORT = process.env.PORT || 8000;
 
 const app: Application = express();
