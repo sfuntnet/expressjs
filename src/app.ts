@@ -14,9 +14,23 @@ const app: Application = express();
 
 const http = require('http');
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
-
+// const { Server } = require("socket.io");
+// const io = new Server(server);
+const io = require("socket.io")(server, {
+    handlePreflightRequest: (req:any, res:any) => {
+        const headers = {
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true,
+            "Access-Control-Allow-Methods": "PUT, GET, POST, DELETE, OPTIONS"
+        };
+        res.writeHead(200, headers);
+        res.end();
+    },
+    cors: {
+        origin: '*',
+    }
+});
 
 app.use(express.json());
 app.use(morgan("tiny"));
@@ -34,8 +48,8 @@ app.use(
 io.on('connection', (socket: any) => {
     console.log('a user connected');
     socket.on('abc', (veri:any) => {
-        console.log(veri);
-        io.emit('abc', veri);
+        console.log(new Date() + ' - ' + veri);
+        io.emit('abc', '=> ' + new Date() + ' - ' + veri);
     });
 });
 app.use(Router);

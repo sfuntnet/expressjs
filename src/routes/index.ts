@@ -6,6 +6,10 @@ import CommentRouter from "./comment.router";
 
 const router = express.Router();
 
+router.get("/", async (_req, res) => {
+  return res.json("start");
+});
+
 router.get("/ping", async (_req, res) => {
   const controller = new PingController();
   const response = await controller.getMessage();
