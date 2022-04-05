@@ -68,10 +68,13 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 // );
 io.on('connection', (socket: any) => {
     console.log('a user connected');
-    socket.on('abc', (veri:any) => {
+    socket.on('def', (veri:any) => {
         console.log(new Date() + ' - ' + veri);
         io.emit('abc', '=> ' + new Date() + ' - ' + veri);
     });
+    socket.on('disconnect', (socket: any) => {
+        console.log('Ayrıldı');
+    })
 });
 app.use(Router);
 
